@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gamma
+  labels:
+    app: gamma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gamma
+  template:
+    metadata:
+      labels:
+        app: gamma
+    spec:
+      containers:
+        - name: hello-world
+          image: busybox
+          command: ["/bin/sh", "-c", "echo 'Hello, world!' && sleep 60"]
+          imagePullPolicy: IfNotPresent

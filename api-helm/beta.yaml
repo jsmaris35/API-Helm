@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: beta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: beta
+  serviceName: redis
+  template:
+    metadata:
+      labels:
+        app: beta
+    spec:
+      containers:
+      - name: redis
+        image: redis:latest
+        volumeMounts:
+        - name: redis-logs
+          mountPath: /var/log/redis
+        ports:
+        - containerPort: 6379
+          name: redis
+      volumes:
+      - name: redis-logs
+        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-logs
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+

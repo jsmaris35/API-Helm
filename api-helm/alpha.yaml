@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha
+  labels:
+    app: alpha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpha
+  template:
+    metadata:
+      labels:
+        app: alpha
+    spec:
+      volumes:
+      - name: logs-volume
+        emptyDir: {}
+      containers:
+      - name: alpha
+        image: nginx
+        volumeMounts:
+        - name: logs-volume
+          mountPath: /var/log/nginx
+        ports:
+        - containerPort: 80
